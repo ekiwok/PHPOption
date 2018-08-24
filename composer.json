@@ -1,0 +1,23 @@
+{
+    "name": "ekiwok/optional",
+    "description": "Optional Scalars like Java Optional",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Piotr Kowalczyk",
+            "email": "github@kowalczyk.codes"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ekiwok\\Optional\\Test\\": "test",
+            "Ekiwok\\Optional\\": "src"
+        }
+    }
+}
