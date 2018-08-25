@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Ekiwok\Optional;
 
+use function Ekiwok\Function1\optionWrap;
+
 trait ScalarOptional
 {
     protected $value;
@@ -15,9 +17,9 @@ trait ScalarOptional
     {
     }
 
-    public function map(callable $mapper): AnyOptional
+    public function map(callable $mapper): Option
     {
-        return AnyOptional::of($mapper($this->value));
+        return optionWrap($mapper($this->value));
     }
 
     public function ifPresent(callable $conumser)

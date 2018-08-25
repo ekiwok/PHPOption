@@ -18,6 +18,7 @@
         "psr-4": {
             "Ekiwok\\Optional\\Test\\": "test",
             "Ekiwok\\Optional\\": "src"
-        }
+        },
+        "files": ["src/functions.php"]
     }
 }

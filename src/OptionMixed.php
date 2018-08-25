@@ -3,10 +3,14 @@ declare(strict_types=1);
 
 namespace Ekiwok\Optional;
 
-abstract class AnyOptional implements Optional
+abstract class OptionMixed implements Option
 {
     use ScalarOptional;
 
+    /**
+     * @throws NoSuchElementException
+     * @return mixed
+     */
     abstract public function get();
 
     abstract public function orElse($value);
@@ -15,10 +19,10 @@ abstract class AnyOptional implements Optional
 
     abstract public function orElseThrow(callable $supplier);
 
-    static public function of($value)
+    static public function of($value): OptionMixed
     {
         if ($value === null) {
-            return new class() extends AnyOptional implements None {
+            return new class() extends OptionMixed implements None {
 
                 public function get()
                 {
@@ -30,9 +34,9 @@ abstract class AnyOptional implements Optional
                     throw $supplier(null);
                 }
 
-                public function map(callable $callback): AnyOptional
+                public function map(callable $callback): Option
                 {
-                    return AnyOptional::of(null);
+                    return OptionMixed::of(null);
                 }
 
                 public function isPresent(): bool
@@ -50,15 +54,15 @@ abstract class AnyOptional implements Optional
                     return $supplier();
                 }
 
-                public function equals(Optional $another): bool
+                public function equals(Option $another): bool
                 {
-                    return $another instanceof AnyOptional
+                    return $another instanceof OptionMixed
                         && $another instanceof None;
                 }
             };
         }
 
-        return new class($value) extends AnyOptional implements Some {
+        return new class($value) extends OptionMixed implements Some {
 
             public function __construct($value)
             {
@@ -85,9 +89,9 @@ abstract class AnyOptional implements Optional
                 return $this->value;
             }
 
-            public function equals(Optional $other): bool
+            public function equals(Option $other): bool
             {
-                return $other instanceof AnyOptional
+                return $other instanceof OptionMixed
                     && $other instanceof Some
                     && $this->get() == $other->get();
             }
