@@ -9,17 +9,7 @@ abstract class OptionMixed implements Option
 {
     use ScalarOptional;
 
-    /**
-     * @throws NoSuchElementException
-     * @return mixed
-     */
-    abstract public function get();
-
     abstract public function orElse($value);
-
-    abstract public function orElseGet(callable $supplier);
-
-    abstract public function orElseThrow(callable $supplier);
 
     static public function of($value): OptionMixed
     {

@@ -5,6 +5,7 @@ namespace Ekiwok\Function1;
 
 use Ekiwok\Optional\Mixed;
 use Ekiwok\Optional\Option;
+use Ekiwok\Optional\OptionBoolean;
 use Ekiwok\Optional\OptionMixed;
 use Ekiwok\Optional\OptionString;
 
@@ -27,6 +28,8 @@ function optionWrap($value, OptionString $typeToWrap): Option
             return OptionMixed::of($value instanceof Mixed ? $value->unwrap() : $value);
 
         case "boolean":
+            return OptionBoolean::of($value);
+
         case "integer":
         case "double":
         case "array":

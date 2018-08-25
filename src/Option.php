@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Ekiwok\Optional;
 
+/**
+ * @method mixed orElse($value)
+ */
 interface Option
 {
     public function equals(Option $another): bool;
