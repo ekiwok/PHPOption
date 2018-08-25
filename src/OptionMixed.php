@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Ekiwok\Optional;
 
+use function Ekiwok\Function1\optionWrap;
+
 abstract class OptionMixed implements Option
 {
     use ScalarOptional;
@@ -34,9 +36,9 @@ abstract class OptionMixed implements Option
                     throw $supplier(null);
                 }
 
-                public function map(callable $callback): Option
+                public function map(callable $callback, string $typeToWrap = null): Option
                 {
-                    return OptionMixed::of(null);
+                    return optionWrap(null, OptionString::of($typeToWrap));
                 }
 
                 public function isPresent(): bool

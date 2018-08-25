@@ -16,9 +16,9 @@ function newish($className, ...$args) {
     return new $className(...$args);
 }
 
-function optionWrap($value): Option
+function optionWrap($value, OptionString $typeToWrap): Option
 {
-    switch (gettype($value))
+    switch ($typeToWrap->orElse(gettype($value)))
     {
         case "string":
             return OptionString::of($value);

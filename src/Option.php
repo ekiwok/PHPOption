@@ -9,5 +9,11 @@ interface Option
 
     public function isPresent(): bool;
 
-    public function map(callable $mapper): Option;
+    public function map(callable $mapper, string $typeToWrap = null): Option;
+
+    public function get();
+
+    public function orElseGet(callable $supplier);
+
+    public function orElseThrow(callable $supplier);
 }

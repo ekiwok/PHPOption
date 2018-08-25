@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Ekiwok\Optional;
 
+use function Ekiwok\Function1\optionWrap;
+
 abstract class OptionString implements Option
 {
     use ScalarOptional;
@@ -58,9 +60,9 @@ abstract class OptionString implements Option
                     throw $supplier();
                 }
 
-                public function map(callable $mapper): Option
+                public function map(callable $mapper, string $typeToMap = null): Option
                 {
-                    return OptionMixed::of(null);
+                    return optionWrap(null, OptionString::of($typeToMap));
                 }
             };
         }

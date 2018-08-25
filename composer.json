@@ -16,8 +16,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Ekiwok\\Optional\\Test\\": "test",
-            "Ekiwok\\Optional\\": "src"
+            "Ekiwok\\Optional\\": "src",
+            "Ekiwok\\Optional\\Test\\": "tests"
         },
         "files": ["src/functions.php"]
     }

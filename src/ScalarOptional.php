@@ -17,9 +17,9 @@ trait ScalarOptional
     {
     }
 
-    public function map(callable $mapper): Option
+    public function map(callable $mapper, string $typeToWrap = null): Option
     {
-        return optionWrap($mapper($this->value));
+        return optionWrap($mapper($this->value), OptionString::of($typeToWrap));
     }
 
     public function ifPresent(callable $conumser)
