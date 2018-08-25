@@ -5,7 +5,10 @@ namespace Ekiwok\Function1;
 
 use Ekiwok\Optional\Mixed;
 use Ekiwok\Optional\Option;
+use Ekiwok\Optional\OptionArray;
 use Ekiwok\Optional\OptionBoolean;
+use Ekiwok\Optional\OptionDouble;
+use Ekiwok\Optional\OptionInteger;
 use Ekiwok\Optional\OptionMixed;
 use Ekiwok\Optional\OptionString;
 
@@ -31,8 +34,14 @@ function optionWrap($value, OptionString $typeToWrap): Option
             return OptionBoolean::of($value);
 
         case "integer":
+            return OptionInteger::of($value);
+
         case "double":
+            return OptionDouble::of($value);
+
         case "array":
+            return OptionArray::of($value);
+
         case "resource":
         case "resource (closed)":
         case "NULL":
