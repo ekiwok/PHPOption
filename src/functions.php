@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Ekiwok\Function1;
 
-use Ekiwok\Optional\Mixed;
-use Ekiwok\Optional\Option;
-use Ekiwok\Optional\OptionArray;
-use Ekiwok\Optional\OptionBoolean;
-use Ekiwok\Optional\OptionDouble;
-use Ekiwok\Optional\OptionInteger;
-use Ekiwok\Optional\OptionMixed;
-use Ekiwok\Optional\OptionString;
+use Ekiwok\Option\Mixed;
+use Ekiwok\Option\Option;
+use Ekiwok\Option\OptionArray;
+use Ekiwok\Option\OptionBoolean;
+use Ekiwok\Option\OptionDouble;
+use Ekiwok\Option\OptionInteger;
+use Ekiwok\Option\OptionMixed;
+use Ekiwok\Option\OptionString;
 
 function of(string $className, ...$args) {
     return $className::of(...$args);

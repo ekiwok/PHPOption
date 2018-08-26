@@ -14,7 +14,7 @@
         bootstrap                   = "vendor/autoload.php" >
 
     <testsuites>
-        <testsuite name="Ekiwok\Optional">
+        <testsuite name="Ekiwok\Option">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

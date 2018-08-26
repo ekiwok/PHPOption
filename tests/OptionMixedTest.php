@@ -1,11 +1,11 @@
 <?php
 
-namespace Ekiwok\Optional\Test;
+namespace Ekiwok\Option\Test;
 
-use Ekiwok\Optional\OptionMixed;
-use Ekiwok\Optional\None;
-use Ekiwok\Optional\NoSuchElementException;
-use Ekiwok\Optional\Some;
+use Ekiwok\Option\OptionMixed;
+use Ekiwok\Option\None;
+use Ekiwok\Option\NoSuchElementException;
+use Ekiwok\Option\Some;
 use PHPUnit\Framework\TestCase;
 
 class Stub

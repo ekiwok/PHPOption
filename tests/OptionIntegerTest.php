@@ -1,8 +1,8 @@
 <?php
 
-namespace Ekiwok\Optional\Test;
+namespace Ekiwok\Option\Test;
 
-use Ekiwok\Optional\OptionInteger;
+use Ekiwok\Option\OptionInteger;
 
 class OptionIntegerTest extends ScalarOptionTest
 {

@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Ekiwok\Optional\Test;
+namespace Ekiwok\Option\Test;
 
 use function Ekiwok\Function1\of;
-use Ekiwok\Optional\Mixed;
-use Ekiwok\Optional\None;
-use Ekiwok\Optional\NoSuchElementException;
-use Ekiwok\Optional\OptionMixed;
-use Ekiwok\Optional\OptionString;
-use Ekiwok\Optional\Some;
+use Ekiwok\Option\Mixed;
+use Ekiwok\Option\None;
+use Ekiwok\Option\NoSuchElementException;
+use Ekiwok\Option\OptionMixed;
+use Ekiwok\Option\OptionString;
+use Ekiwok\Option\Some;
 use PHPUnit\Framework\TestCase;
 
 abstract class ScalarOptionTest extends TestCase

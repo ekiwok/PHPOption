@@ -1,8 +1,8 @@
 <?php
 
-namespace Ekiwok\Optional\Test;
+namespace Ekiwok\Option\Test;
 
-use Ekiwok\Optional\OptionArray;
+use Ekiwok\Option\OptionArray;
 
 class OptionArrayTest extends ScalarOptionTest
 {

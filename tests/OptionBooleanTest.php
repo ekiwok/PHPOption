@@ -1,8 +1,8 @@
 <?php
 
-namespace Ekiwok\Optional\Test;
+namespace Ekiwok\Option\Test;
 
-use Ekiwok\Optional\OptionBoolean;
+use Ekiwok\Option\OptionBoolean;
 
 class OptionBooleanTest extends ScalarOptionTest
 {

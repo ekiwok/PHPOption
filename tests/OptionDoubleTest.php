@@ -1,8 +1,8 @@
 <?php
 
-namespace Ekiwok\Optional\Test;
+namespace Ekiwok\Option\Test;
 
-use Ekiwok\Optional\OptionDouble;
+use Ekiwok\Option\OptionDouble;
 
 class OptionDoubleTest extends ScalarOptionTest
 {

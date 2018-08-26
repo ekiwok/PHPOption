@@ -1,5 +1,5 @@
 {
-    "name": "ekiwok/optional",
+    "name": "ekiwok/option",
     "description": "Optional Scalars like Java Optional",
     "type": "library",
     "license": "MIT",
@@ -16,8 +16,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Ekiwok\\Optional\\": "src",
-            "Ekiwok\\Optional\\Test\\": "tests"
+            "Ekiwok\\Option\\": "src",
+            "Ekiwok\\Option\\Test\\": "tests"
         },
         "files": ["src/functions.php"]
     }
