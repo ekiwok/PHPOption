@@ -12,14 +12,16 @@ use Ekiwok\Option\OptionInteger;
 use Ekiwok\Option\OptionMixed;
 use Ekiwok\Option\OptionString;
 
+/**
+ * @internal
+ */
 function of(string $className, ...$args) {
     return $className::of(...$args);
 };
 
-function newish($className, ...$args) {
-    return new $className(...$args);
-}
-
+/**
+ * @internal
+ */
 function optionWrap($value, OptionString $typeToWrap): Option
 {
     switch ($typeToWrap->orElse(gettype($value)))
