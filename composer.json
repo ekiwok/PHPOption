@@ -1,6 +1,6 @@
 {
     "name": "ekiwok/option",
-    "description": "Optional Scalars like Java Optional",
+    "description": "PHP Option implementations for all scalars. Possible to register custom Option.",
     "type": "library",
     "license": "MIT",
     "authors": [
