@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Ekiwok\Option\Test;
 
 use function Ekiwok\Function1\of;
-use Ekiwok\Option\Mixed;
+use Ekiwok\Option\Any;
 use Ekiwok\Option\None;
 use Ekiwok\Option\NoSuchElementException;
-use Ekiwok\Option\OptionMixed;
+use Ekiwok\Option\Optional;
 use Ekiwok\Option\OptionString;
 use Ekiwok\Option\Some;
 use PHPUnit\Framework\TestCase;
@@ -86,7 +86,7 @@ abstract class ScalarOptionTest extends TestCase
     {
         $this->assertInstanceOf($expectedOptionClass, $this->some->map($mapper));
         $this->assertEquals($expectedOptionValue, $this->some->map($mapper)->get());
-        $this->assertTrue($this->none->map($mapper)->equals(OptionMixed::of(null)));
+        $this->assertTrue($this->none->map($mapper)->equals(Optional::of(null)));
     }
 
     public function testIsPresent()
@@ -108,6 +108,7 @@ abstract class ScalarOptionTest extends TestCase
         $flag = false;
         $this->none->ifPresent($caller);
         $this->assertFalse($flag);
+        return Optional::Some("I love strict types")->orElse(new \stdClass());
     }
 
     public function testEquals()
@@ -126,7 +127,21 @@ abstract class ScalarOptionTest extends TestCase
         return [
             'identity' => [static::TESTED_CLASS, static::SOME_VALUE,  function ($value) { return static::SOME_VALUE; }],
             'string'   => [OptionString::class, "test string", function ($value): string { return "test string"; }],
-            'mixed'    => [OptionMixed::class, static::SOME_VALUE, function ($value) { return new Mixed(static::SOME_VALUE); }],
+            'mixed'    => [Optional::class, static::SOME_VALUE, function ($value) { return new Any(static::SOME_VALUE); }],
         ];
+    }
+
+    public function testNone()
+    {
+        $none = call_user_func([static::TESTED_CLASS, 'None']);
+        $this->assertInstanceOf(None::class, $none);
+        $this->assertInstanceOf(static::TESTED_CLASS, $none);
+    }
+
+    public function testSome()
+    {
+        $some = call_user_func_array([static::TESTED_CLASS, 'Some'], [static::SOME_VALUE]);
+        $this->assertInstanceOf(Some::class, $some);
+        $this->assertInstanceOf(static::TESTED_CLASS, $some);
     }
 }

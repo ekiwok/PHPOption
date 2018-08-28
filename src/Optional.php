@@ -5,16 +5,30 @@ namespace Ekiwok\Option;
 
 use function Ekiwok\Function1\optionWrap;
 
-abstract class OptionMixed implements Option
+abstract class Optional implements Option
 {
     use ScalarOptional;
 
     abstract public function orElse($value);
 
-    static public function of($value): OptionMixed
+    static public function Some($value): Some
     {
         if ($value === null) {
-            return new class() extends OptionMixed implements None {
+            throw new \InvalidArgumentException(ERROR_MSG_SOME_FROM_NONE);
+        }
+        return optionWrap($value, OptionString::None());
+    }
+
+    static public function None(): None
+    {
+        return self::of(null);
+    }
+
+
+    static public function of($value): Optional
+    {
+        if ($value === null) {
+            return new class() extends Optional implements None {
 
                 public function get()
                 {
@@ -48,13 +62,13 @@ abstract class OptionMixed implements Option
 
                 public function equals(Option $another): bool
                 {
-                    return $another instanceof OptionMixed
+                    return $another instanceof Optional
                         && $another instanceof None;
                 }
             };
         }
 
-        return new class($value) extends OptionMixed implements Some {
+        return new class($value) extends Optional implements Some {
 
             public function __construct($value)
             {
@@ -83,7 +97,7 @@ abstract class OptionMixed implements Option
 
             public function equals(Option $other): bool
             {
-                return $other instanceof OptionMixed
+                return $other instanceof Optional
                     && $other instanceof Some
                     && $this->get() == $other->get();
             }

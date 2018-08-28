@@ -2,9 +2,15 @@
 
 namespace Ekiwok\Option\Test;
 
-use Ekiwok\Option\OptionMixed;
+use Ekiwok\Option\Any;
+use Ekiwok\Option\Optional;
 use Ekiwok\Option\None;
 use Ekiwok\Option\NoSuchElementException;
+use Ekiwok\Option\OptionArray;
+use Ekiwok\Option\OptionBoolean;
+use Ekiwok\Option\OptionDouble;
+use Ekiwok\Option\OptionInteger;
+use Ekiwok\Option\OptionString;
 use Ekiwok\Option\Some;
 use PHPUnit\Framework\TestCase;
 
@@ -18,30 +24,30 @@ class Stub
     }
 }
 
-class OptionMixedTest extends TestCase
+class OptionalTest extends TestCase
 {
     /**
-     * @var OptionMixed
+     * @var Optional
      */
     private $some;
 
     /**
-     * @var OptionMixed
+     * @var Optional
      */
     private $none;
 
     public function setUp()
     {
-        $this->some = OptionMixed::of(new Stub('test'));
-        $this->none = OptionMixed::of(null);
+        $this->some = Optional::of(new Stub('test'));
+        $this->none = Optional::of(null);
     }
 
     public function testOf()
     {
-        $this->assertInstanceOf(OptionMixed::class, $this->some);
+        $this->assertInstanceOf(Optional::class, $this->some);
         $this->assertInstanceOf(Some::class, $this->some);
 
-        $this->assertInstanceOf(OptionMixed::class, $this->none);
+        $this->assertInstanceOf(Optional::class, $this->none);
         $this->assertInstanceOf(None::class, $this->none);
     }
 
@@ -87,8 +93,8 @@ class OptionMixedTest extends TestCase
             return new Stub($old);
         };
 
-        $this->assertEquals(OptionMixed::of(new Stub(new Stub("test"))), $this->some->map($mapper));
-        $this->assertEquals(OptionMixed::of(null), $this->none->map($mapper));
+        $this->assertEquals(Optional::of(new Stub(new Stub("test"))), $this->some->map($mapper));
+        $this->assertEquals(Optional::of(null), $this->none->map($mapper));
     }
 
     public function testIsPresent()
@@ -114,12 +120,40 @@ class OptionMixedTest extends TestCase
 
     public function testEquals()
     {
-        $this->assertTrue($this->some->equals(OptionMixed::of(new Stub("test"))));
-        $this->assertFalse($this->some->equals(OptionMixed::of(new Stub("something different"))));
-        $this->assertFalse($this->some->equals(OptionMixed::of(null)));
+        $this->assertTrue($this->some->equals(Optional::of(new Stub("test"))));
+        $this->assertFalse($this->some->equals(Optional::of(new Stub("something different"))));
+        $this->assertFalse($this->some->equals(Optional::of(null)));
 
-        $this->assertTrue($this->none->equals(OptionMixed::of(null)));
-        $this->assertFalse($this->none->equals(OptionMixed::of(new Stub("something different"))));
-        $this->assertFalse($this->none->equals(OptionMixed::of("something")));
+        $this->assertTrue($this->none->equals(Optional::of(null)));
+        $this->assertFalse($this->none->equals(Optional::of(new Stub("something different"))));
+        $this->assertFalse($this->none->equals(Optional::of("something")));
+    }
+
+    public function testNone()
+    {
+        $this->assertInstanceOf(None::class, Optional::None());
+        $this->assertInstanceOf(Optional::class, Optional::None());
+    }
+
+    /**
+     * @dataProvider dataProviderSome
+     */
+    public function testSome($value, string $expectedClass)
+    {
+        $this->assertInstanceOf(Some::class, Optional::Some($value));
+        $this->assertInstanceOf($expectedClass, Optional::Some($value));
+    }
+
+    public function dataProviderSome()
+    {
+        return [
+            [new Any("test"), Optional::class],
+            ["test", OptionString::class],
+            [3.14, OptionDouble::class],
+            [0, OptionInteger::class],
+            [[], OptionArray::class],
+            [false, OptionBoolean::class],
+            [new \stdClass(), Optional::class],
+        ];
     }
 }

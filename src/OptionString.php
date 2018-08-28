@@ -67,7 +67,7 @@ abstract class OptionString implements Option
             };
         }
 
-        return new class($value) extends OptionString implements Some{
+        return new class($value) extends OptionString implements Some {
 
             public function __construct($value)
             {

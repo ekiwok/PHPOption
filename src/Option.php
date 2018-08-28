@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Ekiwok\Option;
 
 /**
- * @method mixed orElse($value)
+ * @method Any orElse($value)
  */
 interface Option
 {
@@ -19,4 +19,8 @@ interface Option
     public function orElseGet(callable $supplier);
 
     public function orElseThrow(callable $supplier);
+
+    static public function Some($value): Some;
+
+    static public function None(): None;
 }

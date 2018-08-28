@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ekiwok\Option;
 
-final class Mixed
+final class Any
 {
     /**
      * @var mixed

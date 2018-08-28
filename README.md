@@ -1,16 +1,57 @@
 # PHP Option
 
-PHP Option implementations for all scalars. Possible to register custom Option.
+Option is a value that might or might not be present. In other words it's elegant alternative to accepting null.
 
-For us who prefer strict type checking and don't mind few more opcodes.
+Allow null approach:
 
 ```php
-   $maybeString   = OptionString::of("test");
-   $maybeInt      = OptionInt::of(43);
-   $maybeDouble   = OptionDobule::of(0.0);
-   $maybeBool     = OptionBoolean::of(false);
-   $maybeArray    = OptionArray::of([]);
-   $maybeBlogPost = OptionMixed::of($blogPosts->findOneById($uuid));
+    $uuid = $request->get('id');
+    
+    if ($uuid === null) {
+       return new NotFoundResponse();
+    }
+    
+    $product = $this->products->findOneBy($uuid);
+    
+    if ($product === null) {
+       return new NotFoundResponse();
+    }
+    
+    return new JsonResponse($product);
+```
+
+Options approach:
+
+```php
+    return Optional::of($request->get('id'))
+        ->map(function (string $uuid) {
+            return $this->products->findOneBy($uuid);
+        })
+        ->map(function (Product $product) {
+            return new JsonResponse($product);
+        })
+        ->orElse(new NotFoundResponse());
+```
+
+In contrary to other libraries this one implements spearate Option for each scalar type and allows registering custom Options for objects. It's the closest to Java templates we can get and enforces strict type checking.
+
+So if you prefer strict type checking over having a few opcodes less, you can enforce:
+
+```php
+    return Optional::Some("I love strict types")->orElse(new \stdClass());
+    // TypeError: Argument 1 passed to class@anonymous::orElse() must be of the type string, object given, called in ...
+
+```  
+
+`Optional::Some` and `Optional::of` wraps each value to correct Option<T> class:
+
+```php
+   $maybeString   = Optional::of("test");                          // OptionString
+   $maybeInt      = Optional::of(43);                              // OptionInteger
+   $maybeDouble   = Optional::of(0.0);                             // OptionDobule
+   $maybeBool     = Optional::of(false);                           // OptionBoolean
+   $maybeArray    = Optional::of([]);                              // OpionArray
+   $maybeBlogPost = Optional::of($blogPosts->findOneById($uuid));  // Optional
    
    OptionArray::of(null) instanceof None; // true
    OptionArray::of([])   instanceof Some; // true
@@ -40,6 +81,10 @@ interface Option<T>
     public function orElseThrow(callable $supplier): T;
     
     static public function of(T $value): Option<T>
+    
+    static public function Some($value): Some
+    
+    static public function None(): None
 }
     
 ```
@@ -54,21 +99,21 @@ So it's not possible to `orElse` float from OptionString:
    // Fatal error: Uncaught TypeError: Argument 1 passed to class@anonymous::orElse() must be of the type string, float given
 ``` 
 
-The only exception is `OptionMixed` which does not enforce types.
+The only exception is `OptionAny` which does not enforce types.
 
 ```php
-   return OptionMixed::of("test")
+   return OptionAny::of("test")
         ->orElse(34.5);
 ```
 
-**Important thing to notice** is that when you map Option which is None it will return OptionMixed.
+**Important thing to notice** is that when you map Option which is None it will return OptionAny.
 
 ```php
     $maybeIsPalindrome = OptionString::of(null)
         ->map('isPalindrome');
     
     $maybeIsPalindrome instanceof OptionBoolean; // false
-    $maybeIsPalindrome instanceof OptionMixed;   // true
+    $maybeIsPalindrome instanceof OptionAny;   // true
 ```
 
 This is because there is no reasonable way to guess what should be the type of the value returned by a $supplier. In Some we are able to wrap accordingly to the type of returned value.
@@ -82,7 +127,7 @@ But if you really want to ensure that, for example, `orElseGet` $supplier return
        ->map('isPalindrome', 'boolean');
    
    $maybeIsPalindrome instanceof OptionBoolean; // true
-   $maybeIsPalindrome instanceof OptionMixed;   // false
+   $maybeIsPalindrome instanceof OptionAny;   // false
    
    $maybeIsPalindrome->orElseGet(function () {
       return null;

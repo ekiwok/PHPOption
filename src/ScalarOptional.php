@@ -30,4 +30,17 @@ trait ScalarOptional
 
         $conumser($this->value);
     }
+
+    static public function Some($value): Some
+    {
+        if (!$value) {
+            throw new \InvalidArgumentException(ERROR_MSG_SOME_FROM_NONE);
+        }
+        return self::of($value);
+    }
+
+    static public function None(): None
+    {
+        return self::of(null);
+    }
 }
