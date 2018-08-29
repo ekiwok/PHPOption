@@ -33,7 +33,7 @@ trait ScalarOptional
 
     static public function Some($value): Some
     {
-        if (!$value) {
+        if ($value === null) {
             throw new \InvalidArgumentException(ERROR_MSG_SOME_FROM_NONE);
         }
         return self::of($value);

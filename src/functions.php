@@ -31,9 +31,6 @@ function optionWrap($value, OptionString $typeToWrap): Option
         case "string":
             return OptionString::of($value);
 
-        case "object":
-            return Optional::of($value instanceof Any ? $value->unwrap() : $value);
-
         case "boolean":
             return OptionBoolean::of($value);
 
@@ -52,5 +49,15 @@ function optionWrap($value, OptionString $typeToWrap): Option
         case "unknown type":
         default:
             return Optional::of($value);
+
+        case "object":
+            return Optional::getMapping(get_class($value))
+                ->map(function (string $optionClassName) use ($value) {
+                    return of($optionClassName, $value);
+                })
+                ->orElseGet(function () use ($value) {
+                    return Optional::of($value instanceof Any ? $value->unwrap() : $value);
+                });
+
     }
 }

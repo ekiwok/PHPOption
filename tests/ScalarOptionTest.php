@@ -108,7 +108,6 @@ abstract class ScalarOptionTest extends TestCase
         $flag = false;
         $this->none->ifPresent($caller);
         $this->assertFalse($flag);
-        return Optional::Some("I love strict types")->orElse(new \stdClass());
     }
 
     public function testEquals()
