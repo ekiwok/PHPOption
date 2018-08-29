@@ -11,6 +11,8 @@ abstract class Optional implements Option
 
     abstract public function orElse($value);
 
+    private static $mappings = [];
+
     static public function Some($value): Some
     {
         if ($value === null) {
@@ -24,6 +26,15 @@ abstract class Optional implements Option
         return self::of(null);
     }
 
+    static public function registerMappings(array $mappings)
+    {
+        self::$mappings = array_merge(self::$mappings, $mappings);
+    }
+
+    static public function getMapping(string $className): OptionString
+    {
+        return OptionString::of(self::$mappings[$className] ?? null);
+    }
 
     static public function of($value): Optional
     {

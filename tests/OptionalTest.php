@@ -3,6 +3,7 @@
 namespace Ekiwok\Option\Test;
 
 use Ekiwok\Option\Any;
+use Ekiwok\Option\Option;
 use Ekiwok\Option\Optional;
 use Ekiwok\Option\None;
 use Ekiwok\Option\NoSuchElementException;
@@ -21,6 +22,53 @@ class Stub
     public function __construct($value)
     {
         $this->value = $value;
+    }
+}
+
+/**
+ * @method Any orElse($value)
+ */
+class OptionalStub implements Option
+{
+    static public function of($value)
+    {
+        return new class() extends OptionalStub implements Some {};
+    }
+
+    public function equals(Option $another): bool
+    {
+    }
+
+    public function isPresent(): bool
+    {
+    }
+
+    public function map(callable $mapper, string $typeToWrap = null): Option
+    {
+    }
+
+    public function get()
+    {
+    }
+
+    public function orElseGet(callable $supplier)
+    {
+    }
+
+    public function orElseThrow(callable $supplier)
+    {
+    }
+
+    static public function Some($value): Some
+    {
+    }
+
+    static public function None(): None
+    {
+    }
+
+    public function __call($name, $arguments)
+    {
     }
 }
 
@@ -133,6 +181,15 @@ class OptionalTest extends TestCase
     {
         $this->assertInstanceOf(None::class, Optional::None());
         $this->assertInstanceOf(Optional::class, Optional::None());
+    }
+
+    public function testCustomMapping()
+    {
+        Optional::registerMappings([
+            Stub::class => OptionalStub::class,
+        ]);
+
+        $this->assertInstanceOf(OptionalStub::class, Optional::Some(new Stub("test")));
     }
 
     /**
