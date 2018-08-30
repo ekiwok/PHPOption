@@ -31,7 +31,7 @@ Allow null approach:
        return new NotFoundResponse();
     }
     
-    $product = $this->products->findOneBy($uuid); 
+    $product = $this->products->findOneById($uuid); 
     
     if ($product === null) {
        return new NotFoundResponse();
@@ -44,12 +44,8 @@ Option approach:
 
 ```php
     return $request->get('id')
-        ->map(function (string $uuid) {
-            return $this->products->findOneBy($uuid);
-        })
-        ->map(function (Product $product) {
-            return new JsonResponse($product);
-        })
+        ->map([$this->products, 'findOneById')
+        ->map([JsonResponse::class, 'create'])
         ->orElse(new NotFoundResponse());
 ```
 
