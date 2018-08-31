@@ -1,4 +1,4 @@
-# PHP Option
+# PHP Option [![Build Status](https://travis-ci.org/ekiwok/PHPOption.svg?branch=master)](https://travis-ci.org/ekiwok/PHPOption)
 
 Option is a value that might or might not be present. In other words it's elegant alternative to throwing an exception or allowing method to return null. It allows for fluent chaining method calls.
 
