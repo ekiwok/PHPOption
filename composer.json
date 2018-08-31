@@ -12,7 +12,7 @@
     "minimum-stability": "stable",
     "require": {},
     "require-dev": {
-        "phpunit/phpunit": "^7.3"
+        "phpunit/phpunit": "^6.5"
     },
     "autoload": {
         "psr-4": {
@@ -20,5 +20,10 @@
             "Ekiwok\\Option\\Test\\": "tests"
         },
         "files": ["src/functions.php"]
+    },
+    "config": {
+        "platform": {
+            "php": "7.0.30"
+        }
     }
 }
