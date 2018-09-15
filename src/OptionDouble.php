@@ -20,7 +20,7 @@ abstract class OptionDouble implements Option
     static public function of(float $value = null): OptionDouble
     {
         if ($value === null) {
-            return new class() extends OptionDouble implements None {
+            self::$none = self::$none ?: new class() extends OptionDouble implements None {
 
                 public function equals(Option $another): bool
                 {
@@ -61,6 +61,8 @@ abstract class OptionDouble implements Option
                     return optionWrap(null, OptionString::of($typeToMap));
                 }
             };
+
+            return self::$none;
         }
 
         return new class($value) extends OptionDouble implements Some {

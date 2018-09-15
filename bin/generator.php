@@ -41,7 +41,7 @@ abstract class Option<?php echo $shortClassName; ?> implements Option
     static public function of(string $value = null): Option<?php echo $shortClassName; ?>
     {
         if ($value === null) {
-            return new class() extends Option<?php echo $shortClassName; ?> implements None {
+                static::$none = static::$none ?:  new class() extends Option<?php echo $shortClassName; ?> implements None {
 
                 public function equals(Option $another): bool
                 {
@@ -82,6 +82,8 @@ abstract class Option<?php echo $shortClassName; ?> implements Option
                     return optionWrap(null, OptionString::of($typeToMap));
                 }
             };
+
+            return static::$none;
         }
 
         return new class($value) extends Option<?php echo $shortClassName; ?> implements Some {

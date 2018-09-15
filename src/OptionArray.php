@@ -20,7 +20,7 @@ abstract class OptionArray implements Option
     static public function of(array $value = null): OptionArray
     {
         if ($value === null) {
-            return new class() extends OptionArray implements None {
+            static::$none = static::$none ?: new class() extends OptionArray implements None {
 
                 public function equals(Option $another): bool
                 {
@@ -61,6 +61,8 @@ abstract class OptionArray implements Option
                     return optionWrap(null, OptionString::of($typeToMap));
                 }
             };
+
+            return static::$none;
         }
 
         return new class($value) extends OptionArray implements Some {

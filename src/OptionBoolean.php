@@ -20,7 +20,7 @@ abstract class OptionBoolean implements Option
     static public function of(bool $value = null): OptionBoolean
     {
         if ($value === null) {
-            return new class() extends OptionBoolean implements None {
+            static::$none = static::$none ?: new class() extends OptionBoolean implements None {
 
                 public function equals(Option $another): bool
                 {
@@ -61,6 +61,8 @@ abstract class OptionBoolean implements Option
                     return optionWrap(null, OptionString::of($typeToMap));
                 }
             };
+
+            return static::$none;
         }
 
         return new class($value) extends OptionBoolean implements Some {

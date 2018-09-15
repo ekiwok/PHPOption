@@ -24,7 +24,7 @@ abstract class OptionString implements Option
     static public function of(string $value = null): OptionString
     {
         if ($value === null) {
-            return new class() extends OptionString implements None {
+            static::$none = static::$none ?: new class() extends OptionString implements None {
 
                 public function equals(Option $another): bool
                 {
@@ -65,6 +65,8 @@ abstract class OptionString implements Option
                     return optionWrap(null, OptionString::of($typeToMap));
                 }
             };
+
+            return static::$none;
         }
 
         return new class($value) extends OptionString implements Some {

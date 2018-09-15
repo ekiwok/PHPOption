@@ -39,7 +39,7 @@ abstract class Optional implements Option
     static public function of($value): Optional
     {
         if ($value === null) {
-            return new class() extends Optional implements None {
+            self::$none = self::$none ?: new class() extends Optional implements None {
 
                 public function get()
                 {
@@ -77,6 +77,8 @@ abstract class Optional implements Option
                         && $another instanceof None;
                 }
             };
+
+            return self::$none;
         }
 
         return new class($value) extends Optional implements Some {

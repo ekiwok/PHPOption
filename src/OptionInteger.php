@@ -20,7 +20,7 @@ abstract class OptionInteger implements Option
     static public function of(int $value = null): OptionInteger
     {
         if ($value === null) {
-            return new class() extends OptionInteger implements None {
+            static::$none = static::$none ?: new class() extends OptionInteger implements None {
 
                 public function equals(Option $another): bool
                 {
@@ -61,6 +61,8 @@ abstract class OptionInteger implements Option
                     return optionWrap(null, OptionString::of($typeToMap));
                 }
             };
+
+            return static::$none;
         }
 
         return new class($value) extends OptionInteger implements Some {

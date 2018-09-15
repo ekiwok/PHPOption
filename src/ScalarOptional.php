@@ -9,6 +9,11 @@ trait ScalarOptional
 {
     protected $value;
 
+    /**
+     * @var $this
+     */
+    static private $none;
+
     private function __clone()
     {
     }
