@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Ekiwok\Option;
 
-use function Ekiwok\Function1\optionWrap;
-
 abstract class Optional implements Option
 {
     use ScalarOptional;
+
+    const ERROR_MSG_SOME_FROM_NONE = 'Cannot make Some from None';
 
     abstract public function orElse($value);
 
@@ -16,7 +16,7 @@ abstract class Optional implements Option
     static public function Some($value): Some
     {
         if ($value === null) {
-            throw new \InvalidArgumentException(ERROR_MSG_SOME_FROM_NONE);
+            throw new \InvalidArgumentException(static::ERROR_MSG_SOME_FROM_NONE);
         }
         return Optional::optionWrap($value, OptionString::None());
     }

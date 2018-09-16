@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Ekiwok\Option;
 
-use function Ekiwok\Function1\optionWrap;
-
 trait ScalarOptional
 {
     protected $value;
@@ -39,7 +37,7 @@ trait ScalarOptional
     static public function Some($value): Some
     {
         if ($value === null) {
-            throw new \InvalidArgumentException(ERROR_MSG_SOME_FROM_NONE);
+            throw new \InvalidArgumentException(Optional::ERROR_MSG_SOME_FROM_NONE);
         }
         return self::of($value);
     }

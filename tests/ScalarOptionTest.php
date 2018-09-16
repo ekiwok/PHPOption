@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ekiwok\Option\Test;
 
-use function Ekiwok\Function1\of;
+use function Ekiwok\Option\Test\Function1\of;
 use Ekiwok\Option\Any;
 use Ekiwok\Option\None;
 use Ekiwok\Option\NoSuchElementException;

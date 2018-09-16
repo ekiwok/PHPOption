@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Ekiwok\Option;
 
-use function Ekiwok\Function1\optionWrap;
-
 abstract class OptionInteger implements Option
 {
     use ScalarOptional;
