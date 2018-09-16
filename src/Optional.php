@@ -18,7 +18,7 @@ abstract class Optional implements Option
         if ($value === null) {
             throw new \InvalidArgumentException(ERROR_MSG_SOME_FROM_NONE);
         }
-        return optionWrap($value, OptionString::None());
+        return Optional::optionWrap($value, OptionString::None());
     }
 
     static public function None(): None
@@ -53,7 +53,7 @@ abstract class Optional implements Option
 
                 public function map(callable $callback, string $typeToWrap = null): Option
                 {
-                    return optionWrap(null, OptionString::of($typeToWrap));
+                    return self::optionWrap(null, OptionString::of($typeToWrap));
                 }
 
                 public function isPresent(): bool
@@ -120,5 +120,53 @@ abstract class Optional implements Option
                 return true;
             }
         };
+    }
+
+    /**
+     * Wraps given $value into a corresponding Option<T> class.
+     * All objects which don't have registered custom Option classes are wrapped into an Optional.
+     * The only exception is Any which is unwrapped and than wrapped into an Optional.
+     * @see Any
+     *
+     * Please notice that this is for internal usage only.
+     *
+     * @internal
+     */
+    final static public function optionWrap($value, OptionString $typeToWrap): Option
+    {
+        switch ($typeToWrap->orElse(gettype($value)))
+        {
+            case "string":
+                return OptionString::of($value);
+
+            case "boolean":
+                return OptionBoolean::of($value);
+
+            case "integer":
+                return OptionInteger::of($value);
+
+            case "double":
+                return OptionDouble::of($value);
+
+            case "array":
+                return OptionArray::of($value);
+
+            case "resource":
+            case "resource (closed)":
+            case "NULL":
+            case "unknown type":
+            default:
+                return Optional::of($value);
+
+            case "object":
+                return Optional::getMapping(get_class($value))
+                    ->map(function (string $optionClassName) use ($value) {
+                        return $optionClassName::of($value);
+                    })
+                    ->orElseGet(function () use ($value) {
+                        return Optional::of($value instanceof Any ? $value->unwrap() : $value);
+                    });
+
+        }
     }
 }

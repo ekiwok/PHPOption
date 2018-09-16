@@ -58,7 +58,7 @@ abstract class OptionDouble implements Option
 
                 public function map(callable $mapper, string $typeToMap = null): Option
                 {
-                    return optionWrap(null, OptionString::of($typeToMap));
+                    return Optional::optionWrap(null, OptionString::of($typeToMap));
                 }
             };
 
