@@ -7,14 +7,29 @@ abstract class OptionInteger implements Option
 {
     use ScalarOptional;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function get(): int;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElse(int $value): int;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseGet(callable $supplier): int;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseThrow(callable $supplier): int;
 
+    /**
+     * If $value is not null returns Some OptionInteger, otherwise returns None OptionInteger.
+     */
     static public function of(int $value = null): OptionInteger
     {
         if ($value === null) {

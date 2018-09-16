@@ -9,10 +9,33 @@ abstract class Optional implements Option
 
     const ERROR_MSG_SOME_FROM_NONE = 'Cannot make Some from None';
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElse($value);
 
+    /**
+     * Used to store mappings for dynamically registered options.
+     * @var array
+     */
     private static $mappings = [];
 
+    /**
+     * {@inheritdoc}
+     *
+     * Please notice that in contrary to specific Option<T> classes Optional tries
+     * to return the most specific Option<T> it can. So for example for:
+     *
+     *    $maybeString = Optional::Some('foo');
+     *
+     * $maybeString is instance of OptionString.
+     *
+     * To get Optional provide Any:
+     *
+     *    $maybeAnything = Optional::some(new Any('foo'));
+     *
+     * $maybeAnything is instance of Optional.
+     */
     static public function Some($value): Some
     {
         if ($value === null) {
@@ -21,21 +44,36 @@ abstract class Optional implements Option
         return Optional::optionWrap($value, OptionString::None());
     }
 
-    static public function None(): None
-    {
-        return self::of(null);
-    }
-
+    /**
+     * Registers array of mappings in format:
+     *  [
+     *     className => Option<className>
+     *  ]
+     */
     static public function registerMappings(array $mappings)
     {
         self::$mappings = array_merge(self::$mappings, $mappings);
     }
 
+    /**
+     * Maybe returns a name of the Option class registered for $className.
+     */
     static public function getMapping(string $className): OptionString
     {
         return OptionString::of(self::$mappings[$className] ?? null);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    static public function None(): None
+    {
+        return self::of(null);
+    }
+
+    /**
+     * If $value is not null returns Some Optional, otherwise returns None Optional.
+     */
     static public function of($value): Optional
     {
         if ($value === null) {

@@ -8,17 +8,28 @@ abstract class OptionString implements Option
     use ScalarOptional;
 
     /**
-     * @throws NoSuchElementException
-     * @return mixed
+     * {@inheritdoc}
      */
     abstract public function get(): string;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElse(string $value): string;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseGet(callable $supplier): string;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseThrow(callable $supplier): string;
 
+    /**
+     * If $value is not null returns Some OptionString, otherwise returns None OptionString.
+     */
     static public function of(string $value = null): OptionString
     {
         if ($value === null) {

@@ -7,14 +7,29 @@ abstract class OptionBoolean implements Option
 {
     use ScalarOptional;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function get(): bool;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElse(bool $value): bool;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseGet(callable $supplier): bool;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseThrow(callable $supplier): bool;
 
+    /**
+     * If $value is not null returns Some OptionBoolean, otherwise returns None OptionBoolean.
+     */
     static public function of(bool $value = null): OptionBoolean
     {
         if ($value === null) {

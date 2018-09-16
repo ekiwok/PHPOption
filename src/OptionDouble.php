@@ -7,14 +7,29 @@ abstract class OptionDouble implements Option
 {
     use ScalarOptional;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function get(): float;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElse(float $value): float;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseGet(callable $supplier): float;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseThrow(callable $supplier): float;
 
+    /**
+     * If $value is not null returns Some OptionDouble, otherwise returns None OptionDouble.
+     */
     static public function of(float $value = null): OptionDouble
     {
         if ($value === null) {

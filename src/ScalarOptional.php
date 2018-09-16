@@ -20,11 +20,17 @@ trait ScalarOptional
     {
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function map(callable $mapper, string $typeToWrap = null): Option
     {
         return Optional::optionWrap($mapper($this->value), OptionString::of($typeToWrap));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function ifPresent(callable $conumser)
     {
         if (!$this->isPresent()) {
@@ -34,6 +40,9 @@ trait ScalarOptional
         $conumser($this->value);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     static public function Some($value): Some
     {
         if ($value === null) {
@@ -42,6 +51,9 @@ trait ScalarOptional
         return self::of($value);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     static public function None(): None
     {
         return self::of(null);

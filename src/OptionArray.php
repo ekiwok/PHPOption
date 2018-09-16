@@ -7,14 +7,29 @@ abstract class OptionArray implements Option
 {
     use ScalarOptional;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function get(): array;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElse(array $value): array;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseGet(callable $supplier): array;
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function orElseThrow(callable $supplier): array;
 
+    /**
+     * If $value is not null returns Some OptionArray, otherwise returns None OptionArray.
+     */
     static public function of(array $value = null): OptionArray
     {
         if ($value === null) {
